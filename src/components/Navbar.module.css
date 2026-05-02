@@ -1,0 +1,116 @@
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: all 0.3s ease;
+  padding: 1.25rem 0;
+}
+.scrolled {
+  background: rgba(10, 10, 15, 0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.75rem 0;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.navInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+.logoDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.7);
+}
+.logoText {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+}
+
+/* Desktop nav */
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.navLink {
+  padding: 0.5rem 0.9rem;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: color 0.2s, background 0.2s;
+}
+.navLink:hover {
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.05);
+}
+.adminBtn {
+  margin-left: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 8px;
+  color: #a5b4fc;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.adminBtn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+/* Mobile toggle */
+.menuToggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+/* Mobile menu */
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 10, 15, 0.97);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1rem 1.5rem;
+  backdrop-filter: blur(20px);
+}
+.mobileLink {
+  padding: 0.75rem 0;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.mobileLink:last-child { border-bottom: none; }
+.mobileLink:hover { color: #f1f5f9; }
+
+@media (max-width: 768px) {
+  .desktopNav { display: none; }
+  .menuToggle { display: flex; }
+}
