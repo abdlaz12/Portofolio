@@ -82,6 +82,42 @@ export default function EditProjectPage() {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      showToast("error", "Please upload an image file.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 1200;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+        updateField("coverImage", dataUrl);
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
   const addTag = () => {
     const tag = techInput.trim();
     if (tag && !form.techStack.includes(tag)) {
@@ -164,9 +200,26 @@ export default function EditProjectPage() {
               </select>
             </div>
             <div className={styles.formGroup}>
-              <label className={styles.formLabel}>Cover Image URL</label>
-              <input className={styles.formInput} type="url" value={form.coverImage}
-                onChange={(e) => updateField("coverImage", e.target.value)} />
+              <label className={styles.formLabel}>Cover Image (Upload)</label>
+              {form.coverImage ? (
+                <div className={styles.imagePreviewWrap}>
+                  <img src={form.coverImage} alt="Cover Preview" className={styles.imagePreview} />
+                  <button
+                    type="button"
+                    className={styles.removeImageBtn}
+                    onClick={() => updateField("coverImage", "")}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : (
+                <input
+                  className={styles.formInput}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+              )}
             </div>
           </div>
 

@@ -325,6 +325,42 @@
   min-height: 80px;
 }
 
+/* Image Upload Preview */
+.imagePreviewWrap {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.2);
+}
+.imagePreview {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.removeImageBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.removeImageBtn:hover {
+  background: rgba(239, 68, 68, 0.8);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
 /* Editor Wrapper */
 .editorLabel {
   font-size: 0.8rem;
