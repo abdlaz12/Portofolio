@@ -2,14 +2,29 @@ import { auth } from "@/lib/auth";
 import { FolderKanban, Eye, Settings, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import styles from "@/app/admin.module.css";
+import dbConnect from "@/lib/mongodb";
+import Project from "@/models/Project";
 
 export default async function AdminDashboard() {
   const session = await auth();
 
+  let totalProjects = 0;
+  let publishedProjects = 0;
+  let draftProjects = 0;
+
+  try {
+    await dbConnect();
+    totalProjects = await Project.countDocuments();
+    publishedProjects = await Project.countDocuments({ isPublished: true });
+    draftProjects = totalProjects - publishedProjects;
+  } catch (error) {
+    console.error("Failed to fetch project stats:", error);
+  }
+
   const stats = [
-    { label: "Total Projects", value: "0", icon: FolderKanban, color: "#6366f1", bg: "rgba(99,102,241,0.1)" },
-    { label: "Published", value: "0", icon: Eye, color: "#22c55e", bg: "rgba(34,197,94,0.1)" },
-    { label: "Drafts", value: "0", icon: Settings, color: "#f59e0b", bg: "rgba(245,158,11,0.1)" },
+    { label: "Total Projects", value: totalProjects.toString(), icon: FolderKanban, color: "#6366f1", bg: "rgba(99,102,241,0.1)" },
+    { label: "Published", value: publishedProjects.toString(), icon: Eye, color: "#22c55e", bg: "rgba(34,197,94,0.1)" },
+    { label: "Drafts", value: draftProjects.toString(), icon: Settings, color: "#f59e0b", bg: "rgba(245,158,11,0.1)" },
   ];
 
   return (
