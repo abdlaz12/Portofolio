@@ -240,7 +240,7 @@ export default async function HomePage() {
                 Drop me a message and let&apos;s build something great.
               </p>
               <a
-                href="mailto:hello@portfolio.com"
+                href="mailto:ajishartanto45@gmail.com"
                 className={styles.contactCta}
                 id="contact-email-btn"
               >

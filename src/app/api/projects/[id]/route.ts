@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Project from "@/models/Project";
+import { revalidatePath } from "next/cache";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -42,6 +43,11 @@ export async function PUT(req: NextRequest, { params }: Params) {
       return NextResponse.json({ success: false, error: "Project not found" }, { status: 404 });
     }
 
+    // Revalidate public pages on update
+    revalidatePath("/");
+    revalidatePath(`/projects/${project.slug}`);
+    revalidatePath("/projects/[slug]", "layout");
+
     return NextResponse.json({ success: true, data: project });
   } catch (error: unknown) {
     console.error("PUT /api/projects/[id] error:", error);
@@ -65,6 +71,11 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
     if (!project) {
       return NextResponse.json({ success: false, error: "Project not found" }, { status: 404 });
     }
+
+    // Revalidate public pages on delete
+    revalidatePath("/");
+    revalidatePath(`/projects/${project.slug}`);
+    revalidatePath("/projects/[slug]", "layout");
 
     return NextResponse.json({ success: true, message: "Project deleted successfully" });
   } catch (error) {

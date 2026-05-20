@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import Project from "@/models/Project";
+import { revalidatePath } from "next/cache";
 
 // GET /api/projects — public, returns only published projects (or all for admin)
 export async function GET(req: NextRequest) {
@@ -58,6 +59,12 @@ export async function POST(req: NextRequest) {
     }
 
     const project = await Project.create(body);
+
+    // Revalidate public path if the new project is published
+    if (project.isPublished) {
+      revalidatePath("/");
+    }
+
     return NextResponse.json({ success: true, data: project }, { status: 201 });
   } catch (error: unknown) {
     console.error("POST /api/projects error:", error);
