@@ -2,10 +2,10 @@ import dbConnect from "@/lib/mongodb";
 import Project from "@/models/Project";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Link from "next/link";
-import Image from "next/image";
+import CustomCursor from "@/components/CustomCursor";
+import AnimatedProjectCard from "@/components/AnimatedProjectCard";
 import styles from "./home.module.css";
-import { ArrowRight, Code2, Layers, Sparkles, ExternalLink } from "lucide-react";
+import { ArrowRight, User } from "lucide-react";
 
 interface ProjectData {
   _id: string;
@@ -32,56 +32,46 @@ async function getPublishedProjects(): Promise<ProjectData[]> {
   }
 }
 
-const CATEGORY_ICONS: Record<string, typeof Code2> = {
-  "Web Development": Code2,
-  "Mobile App": Layers,
-  "UI/UX Design": Sparkles,
-  "Data Science": Layers,
-  "Other": Code2,
-};
-
 export default async function HomePage() {
   const projects = await getPublishedProjects();
-
-  // Get unique categories
   const categories = ["All", ...Array.from(new Set(projects.map((p) => p.category)))];
 
   return (
     <>
+      {/* Custom cursor — public interface only */}
+      <CustomCursor />
+
       <Navbar />
       <main className={styles.main}>
+
         {/* ── Hero Section ── */}
         <section className={styles.hero} id="about">
-          {/* Animated background orbs */}
-          <div className={styles.orb1} />
-          <div className={styles.orb2} />
-          <div className={styles.orb3} />
 
-          {/* Grid overlay */}
-          <div className={styles.grid} />
+          {/* LEFT COLUMN — Content */}
+          <div className={styles.heroLeft}>
 
-          <div className={`container ${styles.heroContent}`}>
-            {/* Badge */}
+            {/* Status badge */}
             <div className={styles.heroBadge}>
               <span className={styles.badgeDot} />
               Available for opportunities
             </div>
 
+            {/* Display headline */}
             <h1 className={styles.heroTitle}>
-              Building Digital
-              <br />
-              <span className="gradient-text">Experiences</span>
+              <span className={styles.titleLine}>Full-Stack</span>
+              <span className={styles.titleLine}>Developer</span>
+              <span className={styles.titleLineAlt}>&amp; Designer</span>
             </h1>
 
             <p className={styles.heroSubtitle}>
-              Full-Stack Developer crafting modern web applications with clean code,
-              thoughtful design, and a passion for solving real problems.
+              Crafting modern web applications with clean code, thoughtful design,
+              and a relentless pursuit of perfection. Based in Indonesia.
             </p>
 
             <div className={styles.heroCtas}>
               <a href="#projects" className={styles.primaryCta}>
                 View Projects
-                <ArrowRight size={16} />
+                <ArrowRight size={15} />
               </a>
               <a href="#contact" className={styles.secondaryCta}>
                 Get In Touch
@@ -106,150 +96,125 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+
+          {/* RIGHT COLUMN — Photo Placeholder */}
+          <div className={styles.heroRight}>
+            <div className={styles.photoFrame} id="profile-photo-frame">
+              {/*
+                ╔═════════════════════════════════════╗
+                ║  PHOTO PLACEHOLDER                  ║
+                ║  Replace <div> below with:          ║
+                ║  <Image                             ║
+                ║    src="/your-photo.jpg"            ║
+                ║    alt="Your Name"                  ║
+                ║    fill                             ║
+                ║    style={{ objectFit: "cover" }}   ║
+                ║    priority                         ║
+                ║  />                                 ║
+                ╚═════════════════════════════════════╝
+              */}
+              <div className={styles.photoPlaceholder}>
+                <User size={48} />
+                <span className={styles.photoLabel}>Your Photo Here</span>
+              </div>
+            </div>
+          </div>
+
         </section>
+
+        {/* ── Section Divider ── */}
+        <div className={styles.sectionDivider} />
 
         {/* ── Projects Section ── */}
         <section className={styles.projectsSection} id="projects">
           <div className="container">
+
             {/* Section header */}
             <div className={styles.sectionHeader}>
-              <span className={styles.sectionTag}>Portfolio</span>
-              <h2 className={styles.sectionTitle}>Featured Projects</h2>
+              <div className={styles.sectionLeft}>
+                <span className={styles.sectionTag}>Portfolio</span>
+                <h2 className={styles.sectionTitle}>
+                  Selected<br />Works
+                </h2>
+              </div>
               <p className={styles.sectionSub}>
-                A selection of my work — from concept to deployment.
+                A curated selection of projects — from concept to deployment.
               </p>
             </div>
 
-            {/* Category filter pills (visual, no JS filtering needed for SSR) */}
+            {/* Category filter pills */}
             {categories.length > 1 && (
               <div className={styles.filterBar}>
                 {categories.map((cat) => (
-                  <span key={cat} className={`${styles.filterPill} ${cat === "All" ? styles.filterActive : ""}`}>
+                  <span
+                    key={cat}
+                    className={`${styles.filterPill} ${cat === "All" ? styles.filterActive : ""}`}
+                  >
                     {cat}
                   </span>
                 ))}
               </div>
             )}
 
-            {/* Project Grid */}
+            {/* ── Animated Project Grid ── */}
             {projects.length === 0 ? (
               <div className={styles.emptyProjects}>
-                <Code2 size={40} />
+                <div className={styles.emptyIcon}>{ }</div>
                 <h3>No projects published yet.</h3>
                 <p>Check back soon — great things are coming!</p>
               </div>
             ) : (
               <div className={styles.projectGrid}>
-                {projects.map((project, i) => {
-                  const Icon = CATEGORY_ICONS[project.category] ?? Code2;
-                  return (
-                    <article
-                      key={project._id}
-                      className={`${styles.projectCard} ${i === 0 ? styles.featured : ""}`}
-                    >
-                      {/* Cover Image */}
-                      <div className={styles.cardImage}>
-                        {project.coverImage ? (
-                          <Image
-                            src={project.coverImage}
-                            alt={project.title}
-                            fill
-                            style={{ objectFit: "cover" }}
-                          />
-                        ) : (
-                          <div className={styles.cardImagePlaceholder}>
-                            <Icon size={36} />
-                          </div>
-                        )}
-                        <div className={styles.cardOverlay} />
-                        {/* Category badge on image */}
-                        <span className={styles.cardCategory}>{project.category}</span>
-                      </div>
-
-                      {/* Card body */}
-                      <div className={styles.cardBody}>
-                        <h3 className={styles.cardTitle}>{project.title}</h3>
-                        <p className={styles.cardExcerpt}>{project.excerpt}</p>
-
-                        {/* Tech stack */}
-                        {project.techStack.length > 0 && (
-                          <div className={styles.techList}>
-                            {project.techStack.slice(0, 4).map((tech) => (
-                              <span key={tech} className={styles.techTag}>{tech}</span>
-                            ))}
-                            {project.techStack.length > 4 && (
-                              <span className={styles.techMore}>
-                                +{project.techStack.length - 4}
-                              </span>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Links */}
-                        <div className={styles.cardLinks}>
-                          <Link
-                            href={`/projects/${project.slug}`}
-                            className={styles.cardReadMore}
-                          >
-                            Read Case Study
-                            <ArrowRight size={14} />
-                          </Link>
-                          <div className={styles.cardIconLinks}>
-                            {project.githubUrl && (
-                              <a
-                                href={project.githubUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={styles.iconLink}
-                                title="View on GitHub"
-                              >
-                                <Code2 size={16} />
-                              </a>
-                            )}
-                            {project.liveUrl && (
-                              <a
-                                href={project.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={styles.iconLink}
-                                title="View Live"
-                              >
-                                <ExternalLink size={16} />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
+                {projects.map((project, i) => (
+                  <AnimatedProjectCard
+                    key={project._id}
+                    id={project._id}
+                    title={project.title}
+                    slug={project.slug}
+                    category={project.category}
+                    excerpt={project.excerpt}
+                    coverImage={project.coverImage}
+                    techStack={project.techStack}
+                    githubUrl={project.githubUrl}
+                    liveUrl={project.liveUrl}
+                    index={i}
+                    isFeatured={i === 0}
+                  />
+                ))}
               </div>
             )}
           </div>
         </section>
 
+        {/* ── Section Divider ── */}
+        <div className={styles.sectionDivider} />
+
         {/* ── Contact Section ── */}
         <section className={styles.contactSection} id="contact">
           <div className="container">
-            <div className={styles.contactCard}>
-              <div className={styles.contactOrb} />
-              <span className={styles.sectionTag}>Let&apos;s Talk</span>
-              <h2 className={styles.contactTitle}>Have a project in mind?</h2>
-              <p className={styles.contactSub}>
-                I&apos;m always open to new opportunities and interesting challenges.
-                Drop me a message and let&apos;s build something great.
-              </p>
-              <a
-                href="mailto:ajishartanto45@gmail.com"
-                className={styles.contactCta}
-                id="contact-email-btn"
-              >
-                Send Me an Email
-                <ArrowRight size={16} />
-              </a>
+            <div className={styles.contactInner}>
+              <span className={styles.contactOverline}>Let&apos;s Talk</span>
+              <h2 className={styles.contactTitle}>
+                Have a project<br />in mind?
+              </h2>
+              <div className={styles.contactRow}>
+                <p className={styles.contactSub}>
+                  I&apos;m always open to new opportunities and interesting challenges.
+                  Drop me a message and let&apos;s build something great together.
+                </p>
+                <a
+                  href="mailto:ajishartanto45@gmail.com"
+                  className={styles.contactCta}
+                  id="contact-email-btn"
+                >
+                  Send Me an Email
+                  <ArrowRight size={16} />
+                </a>
+              </div>
             </div>
           </div>
         </section>
+
       </main>
       <Footer />
     </>

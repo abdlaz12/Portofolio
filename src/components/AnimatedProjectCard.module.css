@@ -1,0 +1,366 @@
+/* ────────────────────────────────────────────
+   ANIMATED PROJECT CARD
+   - Scroll reveal (fade up + blur)
+   - 3D tilt on hover
+   - Mouse-tracking glow
+   - Shimmer on reveal
+   - Progress bar fill
+──────────────────────────────────────────── */
+
+/* ── Card outer — handles reveal animation ── */
+.card {
+  position: relative;
+  background: transparent;
+  /* Entry state */
+  opacity: 0;
+  transform: translateY(40px);
+  filter: blur(4px);
+  transition:
+    opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+    filter 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Featured card */
+.featured {
+  grid-column: span 2;
+}
+
+.featured .imageWrap {
+  height: 380px;
+}
+
+@media (max-width: 640px) {
+  .featured {
+    grid-column: span 1;
+  }
+  .featured .imageWrap {
+    height: 240px;
+  }
+}
+
+/* ── Card inner — handles 3D tilt ── */
+.cardInner {
+  position: relative;
+  background: #080808;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.08s linear, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.card:hover .cardInner {
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* ── Mouse-tracking glow ── */
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition: background 0.15s ease;
+  border-radius: inherit;
+}
+
+/* ── Image Section ── */
+.imageWrap {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  flex-shrink: 0;
+}
+
+.image {
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.4s ease;
+  filter: grayscale(20%);
+}
+
+.card:hover .image {
+  transform: scale(1.06);
+  filter: grayscale(0%);
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.06);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.96) 0%, rgba(8,8,8,0.2) 60%, transparent 100%);
+  z-index: 2;
+}
+
+.categoryTag {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+  padding: 0.2rem 0.55rem;
+  background: rgba(8,8,8,0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.45);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  z-index: 3;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.card:hover .categoryTag {
+  border-color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.75);
+}
+
+/* ── Shimmer reveal line ── */
+.shimmer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  pointer-events: none;
+}
+
+.card.revealed .shimmer {
+  animation: shimmerSlide 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: 0.1s;
+}
+
+@keyframes shimmerSlide {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ── Card Body ── */
+.body {
+  padding: 1.4rem 1.6rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+  z-index: 2;
+  transition: border-color 0.3s ease;
+}
+
+.card:hover .body {
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* Index number */
+.indexNum {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.4rem;
+  font-family: var(--font-barlow), "Barlow Condensed", "Inter", sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.4s ease;
+}
+
+.card:hover .indexNum {
+  color: rgba(255, 255, 255, 0.08);
+}
+
+.title {
+  font-family: var(--font-barlow), "Barlow Condensed", "Inter", sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  color: #ffffff;
+  line-height: 1.1;
+  transition: letter-spacing 0.3s ease;
+}
+
+.card:hover .title {
+  letter-spacing: 0.01em;
+}
+
+.excerpt {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+  transition: color 0.3s ease;
+}
+
+.card:hover .excerpt {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Tech tags */
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.techTag {
+  padding: 0.18rem 0.55rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+
+.card:hover .techTag {
+  border-color: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.techMore {
+  padding: 0.18rem 0.55rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.65rem;
+}
+
+/* Links row */
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  transition: border-color 0.3s ease;
+}
+
+.card:hover .links {
+  border-color: rgba(255,255,255,0.1);
+}
+
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.2s, gap 0.25s ease;
+}
+
+.readMore:hover {
+  color: #ffffff;
+  gap: 0.7rem;
+}
+
+.iconLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.iconLink {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255,255,255,0.3);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.iconLink:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Bottom progress bar ── */
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.progressFill {
+  height: 100%;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.6);
+  transition: width 0s ease;
+}
+
+.card.revealed .progressFill {
+  animation: progressGrow 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes progressGrow {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ── Reduce motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+  .card.revealed .shimmer,
+  .card.revealed .progressFill {
+    animation: none;
+  }
+  .cardInner {
+    transition: box-shadow 0.3s ease;
+  }
+  .image {
+    transition: filter 0.4s ease;
+  }
+}

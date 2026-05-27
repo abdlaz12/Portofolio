@@ -1,25 +1,38 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
 /* ── Design Tokens ── */
 :root {
-  --primary: #6366f1;
-  --secondary: #8b5cf6;
-  --accent: #06b6d4;
+  /* Core B&W Palette */
+  --black:     #080808;
+  --off-black: #111111;
+  --carbon:    #1a1a1a;
+  --dark-gray: #242424;
+  --mid-gray:  #3d3d3d;
+  --gray:      #6b6b6b;
+  --light-gray:#a0a0a0;
+  --off-white: #e8e8e8;
+  --white:     #f8f8f8;
+  --pure-white:#ffffff;
 
-  /* Public site colors (dark default) */
-  --bg: #0a0a0f;
-  --bg-card: rgba(15, 15, 25, 0.85);
-  --bg-subtle: rgba(255, 255, 255, 0.03);
-  --border: rgba(255, 255, 255, 0.07);
-  --text: #f1f5f9;
-  --text-muted: #64748b;
-  --text-subtle: #94a3b8;
+  /* Semantic Tokens */
+  --bg:        var(--black);
+  --bg-card:   rgba(255, 255, 255, 0.03);
+  --bg-subtle: rgba(255, 255, 255, 0.025);
+  --border:    rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.22);
+  --text:      var(--white);
+  --text-muted: var(--gray);
+  --text-subtle: var(--light-gray);
 
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-lg: 24px;
-  --shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+  /* Accent — pure white for elegance */
+  --accent:    var(--pure-white);
+  --accent-dim: rgba(255, 255, 255, 0.12);
+
+  /* Layout */
+  --radius:    6px;
+  --radius-sm: 4px;
+  --radius-lg: 10px;
+  --shadow:    0 32px 80px rgba(0, 0, 0, 0.6);
 }
 
 /* ── Base Reset ── */
@@ -36,7 +49,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: var(--font-inter), "Inter", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
@@ -44,10 +57,10 @@ body {
 
 /* ── Typography ── */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: var(--text);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--white);
 }
 
 a {
@@ -61,17 +74,24 @@ img {
 }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.3);
-  border-radius: 3px;
+  background: var(--mid-gray);
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.5);
+  background: var(--gray);
 }
 
-/* ── Utility Classes ── */
+/* ── Custom Cursor: hide native cursor on public pages ── */
+.no-cursor,
+.no-cursor * {
+  cursor: none !important;
+}
+
+
+/* ── Container ── */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -79,13 +99,24 @@ img {
   padding: 0 1.5rem;
 }
 
+/* ── Display Font Utility ── */
+.display-font {
+  font-family: var(--font-barlow), "Barlow Condensed", "Inter", sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+/* ── Gradient Text ── */
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(135deg, var(--pure-white), var(--light-gray));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+/* ── Glass Card ── */
 .glass-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -93,26 +124,42 @@ img {
   backdrop-filter: blur(20px);
 }
 
+/* ── Fine Grid Overlay ── */
+.fine-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── Horizontal rule ── */
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
 /* ── Project Content (rich text from TipTap) ── */
 .prose h1 { font-size: 2rem; margin: 1.5rem 0 0.75rem; }
 .prose h2 { font-size: 1.5rem; margin: 1.25rem 0 0.6rem; }
 .prose h3 { font-size: 1.2rem; margin: 1rem 0 0.5rem; }
-.prose p { margin-bottom: 1rem; color: var(--text-subtle); line-height: 1.8; }
+.prose p { margin-bottom: 1rem; color: var(--light-gray); line-height: 1.8; }
 .prose ul, .prose ol { padding-left: 1.5rem; margin: 0.75rem 0; }
-.prose li { margin-bottom: 0.4rem; color: var(--text-subtle); }
-.prose strong { color: var(--text); font-weight: 600; }
+.prose li { margin-bottom: 0.4rem; color: var(--light-gray); }
+.prose strong { color: var(--white); font-weight: 600; }
 .prose code {
-  background: rgba(99, 102, 241, 0.12);
-  color: #a5b4fc;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--off-white);
   padding: 0.15em 0.4em;
-  border-radius: 4px;
+  border-radius: 3px;
   font-size: 0.88em;
   font-family: monospace;
+  border: 1px solid var(--border);
 }
 .prose blockquote {
-  border-left: 3px solid var(--primary);
+  border-left: 2px solid var(--white);
   padding-left: 1rem;
-  color: var(--text-muted);
+  color: var(--gray);
   margin: 1rem 0;
   font-style: italic;
 }

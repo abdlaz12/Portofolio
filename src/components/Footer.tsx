@@ -7,11 +7,10 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.footerInner}`}>
         <div className={styles.footerBrand}>
-          <span className={styles.dot} />
-          <span className={styles.brandName}>Portfolio</span>
+          <span className={styles.monogram}>AZ1</span>
         </div>
         <p className={styles.footerText}>
-          Built with Next.js, MongoDB & TipTap.{" "}
+          Built with Next.js &amp; MongoDB.{" "}
           <Link href="/admin" className={styles.footerLink}>Admin</Link>
         </p>
         <p className={styles.copyright}>© {year} All rights reserved.</p>

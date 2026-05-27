@@ -24,10 +24,9 @@ export default function Navbar() {
   return (
     <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
       <div className={`container ${styles.navInner}`}>
-        {/* Logo */}
+        {/* AZ1 Monogram Logo */}
         <Link href="/" className={styles.logo}>
-          <span className={styles.logoDot} />
-          <span className={styles.logoText}>Portfolio</span>
+          <span className={styles.logoMark}>AZ1</span>
         </Link>
 
         {/* Desktop links */}

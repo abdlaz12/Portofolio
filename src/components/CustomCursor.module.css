@@ -1,0 +1,98 @@
+/* ── Custom Cursor — Public Interface Only ── */
+
+/* Base: hide native cursor across all elements when cursor is active */
+:global(html:has(.cursor-active)) * {
+  cursor: none !important;
+}
+
+/* ── Dot — instant follow ── */
+.dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.dotHidden {
+  opacity: 0;
+  width: 3px;
+  height: 3px;
+}
+
+.dotPressed {
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Ring — lagging circle ── */
+.ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  will-change: transform;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    height 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 0.3s ease,
+    border-width 0.3s ease,
+    background 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.ringExpanded {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.04);
+  border-width: 1.5px;
+}
+
+.ringPressed {
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* ── Trail — slow glowing blob ── */
+.trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.045) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 99997;
+  will-change: transform;
+  transform: translate(-50%, -50%);
+  filter: blur(8px);
+}
+
+/* ── Mobile: disable custom cursor ── */
+@media (hover: none) {
+  .dot, .ring, .trail {
+    display: none;
+  }
+}
