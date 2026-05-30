@@ -5,7 +5,8 @@ import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 import AnimatedProjectCard from "@/components/AnimatedProjectCard";
 import styles from "./home.module.css";
-import { ArrowRight, User } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 interface ProjectData {
   _id: string;
@@ -97,26 +98,16 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN — Photo Placeholder */}
+          {/* RIGHT COLUMN — Profile Photo */}
           <div className={styles.heroRight}>
             <div className={styles.photoFrame} id="profile-photo-frame">
-              {/*
-                ╔═════════════════════════════════════╗
-                ║  PHOTO PLACEHOLDER                  ║
-                ║  Replace <div> below with:          ║
-                ║  <Image                             ║
-                ║    src="/your-photo.jpg"            ║
-                ║    alt="Your Name"                  ║
-                ║    fill                             ║
-                ║    style={{ objectFit: "cover" }}   ║
-                ║    priority                         ║
-                ║  />                                 ║
-                ╚═════════════════════════════════════╝
-              */}
-              <div className={styles.photoPlaceholder}>
-                <User size={48} />
-                <span className={styles.photoLabel}>Your Photo Here</span>
-              </div>
+              <Image
+                src="/profile.png"
+                alt="Profile Photo"
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
             </div>
           </div>
 
