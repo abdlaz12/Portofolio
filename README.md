@@ -1,4 +1,4 @@
-# AZ1 — Personal Portfolio
+    # AZ1 — Personal Portfolio
 
 A full-stack personal portfolio website built with **Next.js 16**, **TypeScript**, and **MongoDB**. Designed to showcase projects professionally with a built-in admin CMS for easy content management — no third-party CMS needed.
 
@@ -155,6 +155,5 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👤 Author
 
 **Ajish Artanto (AZ1)**
-- Email: ajishartanto45@gmail.com
 - GitHub: [@abdlaz12](https://github.com/abdlaz12)
 - Portfolio: _your deployed URL here_
