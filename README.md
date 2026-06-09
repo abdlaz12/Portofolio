@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AZ1 — Personal Portfolio
 
-## Getting Started
+A full-stack personal portfolio website built with **Next.js 16**, **TypeScript**, and **MongoDB**. Designed to showcase projects professionally with a built-in admin CMS for easy content management — no third-party CMS needed.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+### Public-Facing
+- **Hero Section** — Animated landing page with profile photo, headline, stats, and CTA buttons
+- **Projects Gallery** — Filterable project cards with category tags, tech stack badges, cover images, and links to GitHub / live demo
+- **Project Detail Page** — Rich text content rendered per project via dynamic routing (`/projects/[slug]`)
+- **Contact Section** — Direct email CTA
+- **Custom Cursor** — Smooth custom cursor experience on desktop
+- **Fully Responsive** — Mobile-first layout, looks great on all screen sizes
+
+### Admin Panel (`/admin`)
+- **Protected Dashboard** — Login-protected using NextAuth.js (credential-based auth)
+- **Project Management** — Create, edit, publish/unpublish, and delete projects
+- **Rich Text Editor** — TipTap editor for writing project content with formatting
+- **Settings Page** — Site configuration
+- **Stats Overview** — Live count of total, published, and draft projects
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 + CSS Modules |
+| Database | MongoDB via [Mongoose](https://mongoosejs.com/) |
+| Auth | [NextAuth.js v5](https://authjs.dev/) (Credentials) |
+| Rich Text | [TipTap](https://tiptap.dev/) |
+| Icons | [Lucide React](https://lucide.dev/) |
+| Fonts | Inter + Barlow Condensed (Google Fonts) |
+| Deployment | Vercel (recommended) |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── page.tsx              # Home / landing page
+│   ├── layout.tsx            # Root layout (fonts, metadata)
+│   ├── globals.css           # Global styles & design tokens
+│   ├── admin/                # Admin dashboard (protected)
+│   │   ├── page.tsx          # Dashboard overview
+│   │   ├── projects/         # Project CRUD pages
+│   │   └── settings/         # Site settings
+│   ├── projects/
+│   │   └── [slug]/           # Dynamic project detail pages
+│   ├── login/                # Login page
+│   └── api/                  # API routes (auth, projects, settings)
+├── components/
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   ├── AnimatedProjectCard.tsx
+│   └── CustomCursor.tsx
+├── lib/
+│   ├── auth.ts               # NextAuth config
+│   └── mongodb.ts            # Mongoose connection
+└── models/
+    └── Project.ts            # Mongoose Project schema
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- A [MongoDB](https://www.mongodb.com/atlas) database (Atlas free tier works great)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+# MongoDB
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/portfolio
+
+# NextAuth
+AUTH_SECRET=your_random_secret_string_here
+NEXTAUTH_URL=http://localhost:3000
+
+# Admin Credentials
+ADMIN_EMAIL=your@email.com
+ADMIN_PASSWORD=yourpassword
+```
+
+> **Tip:** Generate a secure `AUTH_SECRET` by running: `openssl rand -base64 32`
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
+Admin panel is at [http://localhost:3000/admin](http://localhost:3000/admin).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Scripts
 
-## Learn More
+| Command | Description |
+|---|---|
+| `npm run dev` | Start local development server |
+| `npm run build` | Build for production |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌐 Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is optimized for deployment on **Vercel**.
 
-## Deploy on Vercel
+1. Push your repository to GitHub
+2. Import the project on [vercel.com](https://vercel.com)
+3. Add all environment variables from `.env.local` to Vercel's project settings
+4. Deploy — Vercel handles the rest automatically
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📸 Screenshots
+
+> Coming soon after deployment.
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+## 👤 Author
+
+**Ajish Artanto (AZ1)**
+- Email: ajishartanto45@gmail.com
+- GitHub: [@abdlaz12](https://github.com/abdlaz12)
+- Portfolio: _your deployed URL here_
